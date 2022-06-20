@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="control unselectable">
+          <div class="buttons"> 
+              <span class="buttonLabel">Numero de filas: </span><input type="text" id="inputRows" class="unselectable" onClick="this.select();">
+          </div>
+
+          <div class="buttons">
+                  <span class="buttonLabel">Numero de columnas: </span><input type="text" id="inputCols" class="unselectable" onClick="this.select();">
+          </div>
+
+          <div class="buttons">
+                  <span class="buttonLabel">Cantidad de minas: </span><input type="text" id="inputMines" class="unselectable" onClick="this.select();">
+          </div>
+          <button type="button" id="btnGenerate" class="unselectable"><span>Generar</span></button>
+      </div>
+  </div>
+  <div class="canvasContainer">
+      <canvas id="canvas"></canvas>
+  </div>
+  <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>
