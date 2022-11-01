@@ -1,7 +1,6 @@
 import { Cell } from './cell';
 import { make2DArray } from './utils';
 
-
 export class GameState {
   // UI
   public readonly width: number;
@@ -13,7 +12,6 @@ export class GameState {
   // Application
   public running: boolean; // Mutable
 
-
   // Domain
   public readonly columns: number;
   public readonly rows: number;
@@ -22,6 +20,7 @@ export class GameState {
   public readonly options: [number, number][]; // Mutable;
   public totalFlags: number; // Mutable
   public revealedCells: number; // Mutable
+  public timer: number = 0; // Mutable
 
 
   public constructor(

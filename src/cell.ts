@@ -30,13 +30,26 @@ export class Cell {
     this.y = j * h + gridOffset;
   }
 
-  public floodFill(ctx: CanvasRenderingContext2D, state: GameState): void {
+  public floodFill(ctx: CanvasRenderingContext2D, state: GameState, interval: NodeJS.Timer): void {
     for (let i = -1; i <= 1; i++) {
       for (let j = -1; j <= 1; j++) {
         if (this.i + i >= 0 && this.i + i < state.grid.length && this.j + j >= 0 && this.j + j < state.grid[0].length) {
           let neighbour = state.grid[this.i + i][this.j + j];
           if (!neighbour.hasMine && !neighbour.revealed && !neighbour.flagged) {
-            neighbour.reveal(ctx, state);
+            neighbour.reveal(ctx, state, interval);
+          }
+        }
+      }
+    }
+  }
+
+  public floodFill2(state: GameState): void {
+    for (let i = -1; i <= 1; i++) {
+      for (let j = -1; j <= 1; j++) {
+        if (this.i + i >= 0 && this.i + i < state.grid.length && this.j + j >= 0 && this.j + j < state.grid[0].length) {
+          let neighbour = state.grid[this.i + i][this.j + j];
+          if (!neighbour.hasMine && !neighbour.revealed && !neighbour.flagged) {
+            neighbour.reveal2(state);
           }
         }
       }
@@ -48,7 +61,7 @@ export class Cell {
     return (x > this.x && x < this.x + this.w && y > this.y && y < this.y + this.h);
   }
 
-  public reveal(ctx: CanvasRenderingContext2D, state: GameState): void {
+  public reveal(ctx: CanvasRenderingContext2D, state: GameState, interval: NodeJS.Timer): void {
     if (!this.revealed) {
       state.revealedCells -= 1;
       this._revealed = true;
@@ -56,20 +69,42 @@ export class Cell {
     }
 
     if (!this.hasMine && this.totalNeighbours === 0) {
-      this.floodFill(ctx, state);
+      this.floodFill(ctx, state, interval);
     }
 
     if (this.hasMine && state.running) {
-      Game.lose(); // TODO: Make this pure
+      Game.lose(state, ctx, interval); // TODO: Make this pure
+      clearInterval(interval);
     }
 
     if (state.revealedCells === state.totalMines && state.running) {
-      Game.win(); // TODO: Make this pure
+      Game.win(state, ctx, interval); // TODO: Make this pure
+      clearInterval(interval);
     }
   }
 
-  public flag(): void {
+  public reveal2(state: GameState): void {
+    if (!this.revealed) {
+      state.revealedCells -= 1;
+      this._revealed = true;
+    }
 
+    if (!this.hasMine && this.totalNeighbours === 0) {
+      this.floodFill2(state);
+    }
+
+    if (this.hasMine && state.running) {
+      Game.lose2(state); // TODO: Make this pure
+    }
+
+    if (state.revealedCells === state.totalMines && state.running) {
+      Game.win2(state); // TODO: Make this pure
+    }
+  }
+
+  public flag(ctx: CanvasRenderingContext2D): void {
+    this._flagged = !this.flagged;
+    this.draw(ctx);
   }
 
   public countNeighbours(state: GameState): void {

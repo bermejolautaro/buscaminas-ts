@@ -21,5 +21,5 @@ export function isOnBounds<T>(i: number, j: number, grid: T[][]): boolean {
 }
 
 export function clamp(value: number, max: number, min: number) {
-    return Math.max(Math.min(value, max), min);
+    return Math.max(Math.min(value, min), max);
 }

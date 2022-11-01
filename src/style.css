@@ -59,3 +59,11 @@
   /* Awesome future-browsers       */
   -ms-interpolation-mode: nearest-neighbor;
 }
+
+#timer {
+  color: red;
+  font-size: 2em;
+  font-family: 'Calibri';
+  width: 100%;
+  text-align: center;
+}
